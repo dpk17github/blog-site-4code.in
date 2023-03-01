@@ -1,0 +1,53 @@
+{% extends 'base.html' %} 
+
+
+{% block title %} BlogHome {% endblock title %} 
+{% block blogactive %} {% endblock blogactive %}
+{% block body %}
+
+
+<div class="container my-4">
+  <h3 class="text-danger">PROFILE:</h3>
+  <div class="row g-0 border rounded overflow-hidden flex-md-row my-3 pe-4 shadow-sm h-md-250 position-relative"></div>
+</div>
+
+<div class="container mt- mb-5">
+  <div class="row align-items-md-stretch">
+
+    
+      <div class="col-md-3">
+        <div class="h-100 p-3 bg-light border rounded-3"> 
+          <div class="container">
+            <img src="/static/img/user.png" class="w-100 bg-secondary rounded-circle"></img>
+          </div>
+          <div class="container px-3 mt-1">
+            <h2 class="fw-normal text-center text-success">{{user}}</h2>
+          </div>
+            <p class="text-center text-danger">{{p.bio}}</p>
+          </div>
+        </div>
+        
+
+      <div class="col-md-9">
+        <div class="h-100 p-3 text-bg-light rounded-3">
+          <div class="col p-3 d-flex flex-column position-static">
+            <h4 class="text-dark">About:</h4>
+            <strong class="d-inline-block mb-0 text-success py-2">Username: {{user}}</strong>
+            <strong class="d-inline-block mb-0 text-success py-2">First Name: {{user.first_name}}</strong>
+            <strong class="d-inline-block mb-0 text-success py-2">Last Name: {{user.last_name}}</strong>
+            <strong class="d-inline-block mb-0 text-success py-2">Email Adress: {{user.email}}</strong>
+            <strong class="d-inline-block mb-0 text-success py-2">Date of birth: {{user.dob}}</strong>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+{% endblock body %}

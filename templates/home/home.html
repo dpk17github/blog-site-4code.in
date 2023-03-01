@@ -1,0 +1,45 @@
+{% extends 'base.html' %} 
+
+
+{% block title %} Home {% endblock title %} 
+{% block homeactive %} active {% endblock homeactive %}
+{% block js %}
+<script> 
+let pres = document.getElementsByClassName('pre');
+Array.from(pres).forEach((element)=>{
+element.innerHTML = element.innerText;
+}) 
+</script>
+{% endblock js %}
+{% block body %}
+
+<div class="container">
+    <div class="row align-items-md-stretch my-3">
+        <div class="col-md-12">
+            <div class="h-100 p-5 text-bg-light rounded-3">
+                <h2 class="text-success">Welcome To deepak singh!</h2>
+                <p>Swap the background-color utility and add a `.text-*` color utility to mix up the jumbotron look. Then, mix and match with additional component themes and more.</p>
+                <a class="btn btn-success" href="/blog" role="button">Go To BlogPosts</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container my-4">
+    <h3>Popular blogpost:</h3>
+    {% for post in popularpost %}
+    <div class="row g-0 border rounded overflow-hidden flex-md-row my-3 pe-4 shadow-sm h-md-250 position-relative">
+        <div class="col p-3 d-flex flex-column position-static">
+          <strong class="d-inline-block mb-0 text-success">Article by {{post.author}}</strong>
+          <h3 class="mb-1">{{post.title}}</h3>
+          <p class="card-text mb-auto"><div class="pre">{{post.text|safe | truncatechars:200}}</div></p>
+          <div class="mt-1">
+            <a href="/blog/{{post.slug}}" role="button" class="btn btn-success">Continue reading...</a>
+            <div class="mt-2 text-muted">{{post.timestamp}}</div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+</div>
+{% endblock body %}
+

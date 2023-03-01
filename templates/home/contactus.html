@@ -1,0 +1,32 @@
+{% extends 'base.html' %} 
+
+
+{% block title %} Contactus {% endblock title %} 
+{% block contactactive %} active {% endblock contactactive %}
+{% block body %}
+<div class="container mt-4">
+    <h4 class="text-success">Contact 4Code Admin!</h4>
+<form action="/contactus" method="post">
+    {% csrf_token %}
+    <div class="mb-3 mt-2">
+        <label for="name" class="form-label">Name</label>
+        <input type="text" class="form-control" id="name" name="name" aria-describedby="name" required>
+      </div>
+    <div class="mb-3">
+      <label for="Email1" class="form-label">Email address</label>
+      <input type="email" class="form-control" id="email1" name="email" aria-describedby="emailHelp" required>
+      <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+    </div>
+    <div class="mb-3">
+      <label for="phone" class="form-label">Phone no.</label>
+      <input type="phone" class="form-control" id="phone" name="phone" required>
+    </div>
+    <div class="mb-3">
+        <label for="help" class="form-label">How May WE Help You?</label>
+        <textarea class="form-control" name="help" id="help" cols="10" rows="4" required></textarea>
+      </div>
+    
+    <button type="submit" class="btn btn-success">Submit</button>
+  </form>
+</div>
+{% endblock body %}

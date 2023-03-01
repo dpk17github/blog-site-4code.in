@@ -1,0 +1,105 @@
+{% extends 'base.html' %} 
+{% load humanize %} 
+{% load extras %} 
+
+{% block title %} Blogpost {% endblock title %} 
+{% block blogactive %} active {% endblock blogactive %}
+{% block body %}
+<div class="container my-4">
+    <article class="blog-post">
+        <h2 class="blog-post-title mb-1 text-secondary">{{allpost.title.upper}}</h2>
+        <p class="blog-post-meta">{{allpost.timestamp}} <a class="text-success" href="#">{{allpost.author}} (views {{allpost.views}})</a></p>
+        
+        <p>{{allpost.text|safe}}</p>
+        
+</div>
+
+<div class="container my-3">
+    <h2 class="text-danger">Comments({{tc}})</h2>
+    {% for comment in comments %}
+    <div class="row my-2">
+        <div class="col-md-1 px-5"><img class=""src="/static/img/user.png" height="40px" width="50px"></div>
+        <div class="col-md-6 ">
+            <b class="text-danger">{{comment.user}}</b> {{comment.timestamp|naturaltime}}</br>
+            {{comment.comment}} 
+            {% comment %} replybox {% endcomment %}
+            
+            <br>
+                <p class="text-success m-0" data-bs-toggle="collapse" href="#reply{{comment.sno}}" role="button" aria-expanded="false" aria-controls="reply{{comment.sno}}">
+                  Reply
+                </p>
+            
+              <div class="collapse" id="reply{{comment.sno}}">
+                <div class="">
+                    <form action="/blog/postComment" method="post">
+                        {% csrf_token %} 
+                        <div class="row">
+                            <div class="col-md-12">
+                                <textarea class="form-control mb-1" name="comment" id="comment" cols="10" rows="3" placeholder="add a reply..." required></textarea>
+                                <input type='hidden' value='{{comment.sno}}' name='parentsno'>
+                                <input type='hidden' value='{{allpost.sno}}' name='postsno'>
+                            </div>
+                        </div>
+                        {% if user.is_authenticated %}
+                        <button class="btn btn-danger mt-1" type="submit">Reply</button>
+                        <button class="btn btn-secondary mt-1" data-bs-toggle="collapse" href="#reply{{comment.sno}}" role="button" aria-expanded="false" aria-controls="reply{{comment.sno}}">
+                            Cencle
+                        </button>
+                        {% else  %}
+                        <button type="button" class="btn btn-danger mt-1" data-bs-toggle="modal" data-bs-target="#loginModal">
+                        Reply(tr)
+                        </button>
+                        <button class="btn btn-secondary mt-1" data-bs-toggle="collapse" href="#reply{{comment.sno}}" role="button" aria-expanded="false" aria-controls="reply{{comment.sno}}">
+                            Cencle
+                        </button>
+                        {% endif %}
+                        
+                    </form>
+                </div>
+              </div>
+              {% comment %} replybox {% endcomment %}
+              <div class="replypost  my-2">
+                {% for reply in replydict|get_val:comment.sno %}
+                <div class="row my-2">
+                    <div class="col-md-1 px-5"><img class=""src="/static/img/user.png" height="40px" width="50px"></div>
+                    <div class="col-md-6 ">
+                        <b class="text-danger">{{reply.user}}</b> {{reply.timestamp|naturaltime}}<br>
+                        {{reply.comment}} 
+                    </div>
+                </div>
+                {% endfor %}
+              </div>
+        </div>
+       
+    </div>
+    {% endfor %}
+</div>
+        
+<div class="container my-4">
+        <form action="/blog/postComment" method="post">
+            {% csrf_token %} 
+            <div class="row">
+                <div class="col-md-6">
+                    <textarea class="form-control mb-1" name="comment" id="comment" cols="10" rows="5" placeholder="add a comment..." required></textarea>
+                    <input type='hidden' value='{{allpost.sno}}' name='postsno'>
+                    <input type='hidden' value='' name='parentsno'>
+                </div>
+            </div>
+            {% if user.is_authenticated %}
+            <button class="btn btn-danger mt-1" type="submit">Comment</button>
+            {% else  %}
+            <button type="button" class="btn btn-danger mt-1" data-bs-toggle="modal" data-bs-target="#loginModal">
+            Comment
+            </button>
+            {% endif %}
+            
+        </form>
+</div>
+    
+
+<div class="container">
+    
+    
+</div>
+  
+{% endblock body %}

@@ -1,0 +1,43 @@
+{% extends 'base.html' %} 
+
+
+{% block title %} Search {% endblock title %} 
+{% block blogactive %} active {% endblock blogactive %}
+{% block js %}
+<script> 
+let pres = document.getElementsByClassName('pre');
+Array.from(pres).forEach((element)=>{
+element.innerHTML = element.innerText;
+}) 
+</script>
+{% endblock js %}
+{% block body %}
+<div class="container my-4">
+  <h3 class="text-success">Search results:</h3>
+  {% if allpost|length < 1 %}
+  Your search - <b>{{query}}</b>- did not match any documents.<br>
+  Suggestions:<br>
+  <ul>
+    <li>Make sure that all words are spelled correctly.</li>
+    <li>Try different keywords.</li>
+    <li>Try more general keywords.</li>
+    </ul>
+    {% endif %}
+  {% for post in allpost %}
+  <div class="row g-0 border rounded overflow-hidden flex-md-row my-3 pe-4 shadow-sm h-md-250 position-relative">
+    <div class="col p-3 d-flex flex-column position-static">
+      <strong class="d-inline-block mb-0 text-success">Article by {{post.author}}</strong>
+      <h3 class="mb-1">{{post.title}}</h3>
+      <div class="pre">
+      <p class="card-text mb-auto">{{post.text|safe|truncatechars:200}}</p>
+    </div>
+      <div class="mt-1">
+        <a href="/blog/{{post.slug}}" role="button" class="btn btn-success">Continue reading...</a>
+        <div class="mt-2 text-muted">{{post.timestamp}}</div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+    
+{% endblock body %}
